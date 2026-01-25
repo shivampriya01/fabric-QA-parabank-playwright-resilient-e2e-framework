@@ -1,15 +1,13 @@
+//Jenkinsfile (Optimized for Windows)
 pipeline {
     agent any
     
-    tools {
-        nodejs 'node20' 
-    }
-
     environment {
-        // Use a headless mode for CI stability
-        CI = 'true'
+        // This pulls the path of the NodeJS tool you configured as 'node20'
+        NODE_HOME = tool name: 'node20', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+        // Adds Node to the PATH so 'npm' and 'npx' can be found
+        PATH = "${NODE_HOME};${env.PATH}"
     }
-
     stages {
         stage('Checkout') {
             steps {
@@ -19,14 +17,14 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci'
-                sh 'npx playwright install --with-deps chromium'
+                bat 'npm ci'
+                bat 'npx playwright install --with-deps chromium'
             }
         }
 
         stage('Execute E2E Tests') {
             steps {
-                   sh 'npx playwright test || true'
+                   sh bat 'npx playwright test --reporter=list'
             }
         }
     }
@@ -34,7 +32,7 @@ pipeline {
     post {
         always {
             // Archive the Playwright HTML report
-            publishHTML([
+            publishHTML(target:[
                 allowMissing: false,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
