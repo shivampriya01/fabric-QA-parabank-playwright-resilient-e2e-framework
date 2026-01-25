@@ -24,7 +24,7 @@ pipeline {
 
         stage('Execute E2E Tests') {
             steps {
-                   sh bat 'npx playwright test --reporter=list'
+                   bat 'npx playwright test --reporter=list'
             }
         }
     }
