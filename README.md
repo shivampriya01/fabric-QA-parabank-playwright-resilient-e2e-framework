@@ -66,7 +66,8 @@ A robust ```Jenkinsfile``` is included for on-premise execution.
 ├── global-setup.ts      # DB Initialization & Environment Cleaning
 ├── playwright.config.ts # Core configuration (Retries, Workers)
 ├── Jenkinsfile          # Jenkins Pipeline Script
-└── README.md            # Documentation```
+└── README.md            # Documentation
+```
 
 🔮 **Future Roadmap**
 - **Dockerization**: Containerizing the test runner for completely isolated execution.
